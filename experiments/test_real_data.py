@@ -3,6 +3,7 @@ import numpy as np
 
 from preprocessing.mask_data import create_mask
 from models.baseline import mean_fill
+from models.zifa_model import zifa_impute
 from evaluation.metrics import (
     mean_absolute_error,
     mean_absolute_percentage_error,
@@ -41,3 +42,23 @@ print("\n--- Baseline Results ---")
 print("MAE:", mean_absolute_error(true_missing, predicted_missing))
 print("MAPE:", mean_absolute_percentage_error(true_missing, predicted_missing))
 print("R2:", r2_score(true_missing, predicted_missing))
+
+# ZIFA MODEL
+zifa_recon, X_subset, mask_subset = zifa_impute(tensor, mask)
+
+zifa_pred = zifa_recon[mask_subset == 0]
+zifa_true = X_subset[mask_subset == 0]
+
+valid = (zifa_true != 0) & (~np.isnan(zifa_pred))
+
+zifa_pred = zifa_pred[valid]
+zifa_true = zifa_true[valid]
+
+if len(zifa_true) == 0:
+    print("\n--- ZIFA Results ---")
+    print("No valid values to evaluate after filtering.")
+else:
+    print("\n--- ZIFA Results ---")
+    print("MAE:", mean_absolute_error(zifa_true, zifa_pred))
+    print("MAPE:", mean_absolute_percentage_error(zifa_true, zifa_pred))
+    print("R2:", r2_score(zifa_true, zifa_pred))
