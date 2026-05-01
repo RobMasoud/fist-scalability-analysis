@@ -49,10 +49,14 @@ zifa_recon, X_subset, mask_subset = zifa_impute(tensor, mask)
 zifa_pred = zifa_recon[mask_subset == 0]
 zifa_true = X_subset[mask_subset == 0]
 
-valid = (zifa_true != 0) & (~np.isnan(zifa_pred))
+zifa_true = np.expm1(zifa_true)
+
+valid = ~np.isnan(zifa_pred)
 
 zifa_pred = zifa_pred[valid]
 zifa_true = zifa_true[valid]
+
+print("Num eval points:", len(zifa_true))
 
 if len(zifa_true) == 0:
     print("\n--- ZIFA Results ---")

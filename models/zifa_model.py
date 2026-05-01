@@ -28,6 +28,9 @@ def zifa_impute(tensor, mask, max_samples=2000):
 
     Z, params = block_ZIFA.fitModel(X_filtered, 10)
 
-    reconstructed = params['X']
+    reconstructed = np.expm1(params['X'])
+    
+    print("ZIFA input shape:", X_filtered.shape)
+    print("Reconstructed shape:", reconstructed.shape)
 
-    return reconstructed, X_filtered, mask_filtered
+    return reconstructed, np.expm1(X_filtered), mask_filtered
