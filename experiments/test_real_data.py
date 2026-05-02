@@ -49,14 +49,23 @@ zifa_recon, X_subset, mask_subset = zifa_impute(tensor, mask)
 zifa_pred = zifa_recon[mask_subset == 0]
 zifa_true = X_subset[mask_subset == 0]
 
-zifa_true = np.expm1(zifa_true)
-
 valid = ~np.isnan(zifa_pred)
 
 zifa_pred = zifa_pred[valid]
 zifa_true = zifa_true[valid]
 
 print("Num eval points:", len(zifa_true))
+
+print("\n=== ZIFA DEBUG ===")
+print("zifa_recon shape:", zifa_recon.shape, "dtype:", zifa_recon.dtype)
+print("zifa_recon min/max:", np.nanmin(zifa_recon), np.nanmax(zifa_recon))
+print("zifa_recon contains NaN:", np.isnan(zifa_recon).sum())
+print("zifa_recon contains Inf:", np.isinf(zifa_recon).sum())
+print("\nX_subset shape:", X_subset.shape, "dtype:", X_subset.dtype)
+print("X_subset min/max:", np.min(X_subset), np.max(X_subset))
+print("\nAfter filtering:")
+print("zifa_pred length:", len(zifa_pred), "min/max:", np.nanmin(zifa_pred), np.nanmax(zifa_pred))
+print("zifa_true (before expm1) length:", len(zifa_true))
 
 if len(zifa_true) == 0:
     print("\n--- ZIFA Results ---")
