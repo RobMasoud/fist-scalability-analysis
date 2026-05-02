@@ -11,14 +11,20 @@ Evaluating the scalability and performance of the FIST algorithm for imputing sp
 - Implemented evaluation metrics: MAE, MAPE, and R^2
 - Downloaded and added the FIST dataset (10x_data)
 - Loaded the tensor from the MATLAB file and converted it to a NumPy array
+- Integrated ZIFA (Zero-Inflated Factor Analysis) model
+- Integrated REMAP (Dual-regularized collaborative filtering) model
 - Ran the full pipeline on real data:
-  
-  Tensor -> Mask -> Baseline -> Evaluation
+  Tensor -> Mask -> Baseline/ZIFA/REMAP -> Evaluation
 
 - Baseline results on HBA1 dataset:
-  - MAE ≈ 3.25
-  - MAPE ≈ 71.76%
-  - R^2 ≈ -0.069
+  - MAE: 3.25
+  - MAPE: 71.76%
+  - R^2: -0.069
+
+- REMAP results on HBA1 dataset (full 5k dataset):
+  - MAE: 1.47
+  - MAPE: 49.75%  
+  - R^2: 0.715
 
 ---
 
